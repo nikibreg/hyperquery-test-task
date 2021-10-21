@@ -1,13 +1,12 @@
 import { observer } from "mobx-react";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import useStores from "../../hooks/useStores";
 import DocumentStore from "../../stores/DocumentStore";
+import AddingDocumentItem from "./AddingDocumentItem";
 import DocumentItem from "./DocumentItem";
 // import { Provider } from "mobx-react";
 // import Editor from "rich-markdown-editor";
-
 // import stores from "./stores";
-
 import "./Sidebar.css";
 
 export const Sidebar = () => {
@@ -40,6 +39,10 @@ export const Sidebar = () => {
         documentStore?.deleteDocument(id)
     }
 
+    const saveDocumentItem = (title: string) => {
+        documentStore?.addDocument(title)
+    }
+
     React.useEffect(() => {
         window.addEventListener("mousemove", resize);
         window.addEventListener("mouseup", stopResizing);
@@ -68,6 +71,7 @@ export const Sidebar = () => {
                     />
                 ))
             }
+            <AddingDocumentItem onSaveDocumentItem={(title: string) => saveDocumentItem(title)} />
         </menu>
         </div>
         <div className="sidebar-resizer" onMouseDown={startResizing} />
