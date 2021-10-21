@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import DocumentItem from "./DocumentItem";
 // import { Provider } from "mobx-react";
 // import Editor from "rich-markdown-editor";
 
@@ -56,9 +57,7 @@ export const Sidebar = () => {
             <h2 className="document-container-title">Documents</h2>
             {
                 documents.map(document => ( 
-                    <button className="document">
-                        <h5 className="document-title">{document.title}</h5>
-                    </button>   
+                    <DocumentItem title={document.title} />
                 ))
             }
         </menu>

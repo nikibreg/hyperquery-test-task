@@ -42,16 +42,3 @@
   width: 3px;
   background: #c1c3c5b4;
 }
-
-.document {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1em;
-  width: 100%;
-  text-align: left;
-}
-
-.document:hover {
-  background-color: #00000010;
-}
