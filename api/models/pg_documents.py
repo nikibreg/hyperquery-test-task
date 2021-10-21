@@ -35,7 +35,7 @@ class PgDocument(SqlalchemyHelper.Base, PGNormModel):
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
             'deleted_at': self.deleted_at.isoformat() if self.deleted_at else None,
-            'ordinal_index': self.ordinal_number
+            'ordinal_number': self.ordinal_number
         }
 
         return data
