@@ -12,6 +12,7 @@
 
 .document h5 {
     flex: 1;
+    padding: 0 5px;
 }
 
 .document:hover, .document.active {
