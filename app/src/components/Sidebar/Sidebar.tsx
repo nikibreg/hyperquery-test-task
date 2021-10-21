@@ -1,4 +1,7 @@
-import React, { useRef, useState } from "react";
+import { observer } from "mobx-react";
+import React, { useRef, useState, useEffect } from "react";
+import useStores from "../../hooks/useStores";
+import DocumentStore from "../../stores/DocumentStore";
 import DocumentItem from "./DocumentItem";
 // import { Provider } from "mobx-react";
 // import Editor from "rich-markdown-editor";
@@ -8,13 +11,10 @@ import DocumentItem from "./DocumentItem";
 import "./Sidebar.css";
 
 export const Sidebar = () => {
-    const documents = [
-        {title: 'a'},
-        {title: 'a'}
-    ]
     const sidebarRef = useRef(null);
     const [isResizing, setIsResizing] = useState(false);
     const [sidebarWidth, setSidebarWidth] = useState(268);
+    const { documentStore } = useStores();
 
     const startResizing = React.useCallback((mouseDownEvent) => {
         setIsResizing(true);
@@ -35,6 +35,10 @@ export const Sidebar = () => {
         },
         [isResizing]
     );
+    
+    const deleteDocumentItem = (id: string) => {
+        documentStore?.deleteDocument(id)
+    }
 
     React.useEffect(() => {
         window.addEventListener("mousemove", resize);
@@ -56,8 +60,12 @@ export const Sidebar = () => {
         <menu className="document-container">
             <h2 className="document-container-title">Documents</h2>
             {
-                documents.map(document => ( 
-                    <DocumentItem title={document.title} />
+                (documentStore as DocumentStore).documents.map((document: any) => ( 
+                    <DocumentItem
+                        key={document.id}
+                        title={document.title}
+                        onDelete={() => deleteDocumentItem(document.id)}
+                    />
                 ))
             }
         </menu>
@@ -67,4 +75,4 @@ export const Sidebar = () => {
     )
 }
 
-export default Sidebar;
+export default observer(Sidebar);
