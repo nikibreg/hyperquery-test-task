@@ -3,6 +3,7 @@ from models import db_session, PgDocument
 
 documents_mod = Blueprint('documents', __name__)
 
+ordinal_number_interval = 1000
 
 @documents_mod.route('', methods=['POST'])
 def create():
@@ -13,7 +14,6 @@ def create():
         parent_document = PgDocument.query.get(parent_id)
         if not parent_document:
             abort(404, "resource not found")
-    ordinal_number_interval = 1000
     ordinal_number = ordinal_number_interval * (PgDocument.query.count() + 1)
     document = PgDocument(
         title=request_data.get('title', ''),
@@ -74,12 +74,35 @@ def update(document_id):
     if not document:
         abort(404, "resource not found")
 
-    request_data = request.get_json()
+    request_data = request.get_json(force=True)
     parent_id = request_data.get('parent_id')
     if parent_id:
         parent_document = PgDocument.query.get(parent_id)
         if not parent_document:
             abort(404, "resource not found")
+
+    ordinal_previous_id = request_data.get('ordinal_previous_id')
+    docs = PgDocument.query.all()   
+    docs.sort(key = lambda doc: doc.ordinal_number)
+    if ordinal_previous_id:
+        ordinalNumber = ordinal_number_interval
+        previousDocument = PgDocument.query.get(ordinal_previous_id)        
+        
+        if previousDocument and previousDocument.id != document_id:
+            previousOrdinal = previousDocument.ordinal_number
+            nextDocuments = [doc for doc in docs if doc.ordinal_number > previousOrdinal and doc.id != document_id]
+            if nextDocuments:
+                nextDocument = nextDocuments[0]
+                diff = round((nextDocument.ordinal_number - previousDocument.ordinal_number) / 2)
+                ordinalNumber = previousDocument.ordinal_number + diff
+            else: 
+                ordinalNumber = docs[-1].ordinal_number + ordinal_number_interval
+        setattr(document, 'ordinal_number', ordinalNumber)
+    elif 'ordinal_previous_id' in request_data and ordinal_previous_id is None:
+        if docs[0].ordinal_number == ordinal_number_interval and docs[0].ordinal_number != document_id:
+            for doc in docs:
+                setattr(doc, 'ordinal_number', doc.ordinal_number + ordinal_number_interval)
+        setattr(document, 'ordinal_number', ordinal_number_interval)
 
     for field in request_data.keys():
         setattr(document, field, request_data[field])
@@ -100,6 +123,15 @@ def delete(document_id):
         abort(404, "resource not found")
 
     db_session.delete(document)
+    db_session.commit()
+
+    return jsonify({'message': 'OK'}), 200
+
+@documents_mod.route('/all', methods=['DELETE'])
+def deleteAll():
+    docs = PgDocument.query.all()
+    for doc in docs:    
+        db_session.delete(doc)
     db_session.commit()
 
     return jsonify({'message': 'OK'}), 200
