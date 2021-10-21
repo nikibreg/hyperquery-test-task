@@ -5,11 +5,13 @@ import Editor from "rich-markdown-editor";
 import stores from "./stores";
 
 import "./App.css";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 const App: React.FC = () => {
   return (
     <Provider {...stores}>
-      <div style={{ margin: "25px" }}>
+      <div className="app-container">
+        <Sidebar />
         <Editor defaultValue="Hello world!" />
       </div>
     </Provider>

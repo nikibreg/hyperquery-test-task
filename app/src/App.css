@@ -20,3 +20,10 @@
 .Numbers-list > li {
   list-style: none;
 }
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
