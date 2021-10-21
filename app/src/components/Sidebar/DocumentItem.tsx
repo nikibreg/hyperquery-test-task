@@ -16,10 +16,9 @@ export default function DocumentItem(props: { title: string }) {
   };
 
   return (
-    <div className="document-item-container">
-        <button className="document">
-            <h5 className="document-title">{props.title}</h5>
-        </button>  
+    <button className="document">
+        <h5 className="document-title">{props.title}</h5>
+
         <IconButton
             aria-controls="basic-menu"
             aria-haspopup="true"
@@ -40,6 +39,6 @@ export default function DocumentItem(props: { title: string }) {
         >
         <MenuItem onClick={handleClose}>Delete</MenuItem>
         </Menu>
-    </div>
+    </button>
   );
 }
