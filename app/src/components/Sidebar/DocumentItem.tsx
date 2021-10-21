@@ -13,8 +13,12 @@ export default function DocumentItem(props: { title: string, onDelete: any }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    props.onDelete()
   };
+
+  const onDelete = () => {
+    handleClose()
+    props.onDelete();
+  }
 
   return (
     <div className="document">
@@ -38,7 +42,7 @@ export default function DocumentItem(props: { title: string, onDelete: any }) {
                 'aria-labelledby': 'basic-button',
             }}
         >
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+          <MenuItem onClick={onDelete}>Delete</MenuItem>
         </Menu>
     </div>
   );
