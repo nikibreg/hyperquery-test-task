@@ -14,6 +14,10 @@ export const TextEditor = () => {
             <Editor 
                 value={documentStore?.activeDocument?.body}
             />
+
+            {
+                documentStore?.activeDocument && <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at as string).toLocaleString()}</h6>
+            }
         </div>
     )
 }
