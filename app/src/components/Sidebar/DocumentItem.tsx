@@ -5,12 +5,19 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import "./DocumentItem.css";
 
-export default function DocumentItem(props: { title: string, onDelete: any }) {
+export default function DocumentItem(props: { title: string, onDelete: any, active: boolean, onSetAsActive: any }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const setAsActive = () => {
+    props.onSetAsActive()
+    console.log(props)
+  }
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -21,7 +28,7 @@ export default function DocumentItem(props: { title: string, onDelete: any }) {
   }
 
   return (
-    <div className="document">
+    <div className={`document ${props.active && 'active'}`} onClick={setAsActive}>
         <h5 className="document-title">{props.title}</h5>
 
         <IconButton

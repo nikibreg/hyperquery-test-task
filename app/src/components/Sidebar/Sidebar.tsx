@@ -13,7 +13,7 @@ export const Sidebar = () => {
     const sidebarRef = useRef(null);
     const [isResizing, setIsResizing] = useState(false);
     const [sidebarWidth, setSidebarWidth] = useState(268);
-    const { documentStore } = useStores();
+    const { documentStore, ui } = useStores();
 
     const startResizing = React.useCallback((mouseDownEvent) => {
         setIsResizing(true);
@@ -43,6 +43,11 @@ export const Sidebar = () => {
         documentStore?.addDocument(title)
     }
 
+    const setAsActive = (documentId: string) => {
+        ui?.setActiveDocumentId(documentId);
+        console.log(documentId)
+    }
+
     React.useEffect(() => {
         window.addEventListener("mousemove", resize);
         window.addEventListener("mouseup", stopResizing);
@@ -65,6 +70,8 @@ export const Sidebar = () => {
             {
                 (documentStore as DocumentStore).documents.map((document: any) => ( 
                     <DocumentItem
+                        active={ui?.activeDocumentId === document.id}
+                        onSetAsActive={() => setAsActive(document.id)}
                         key={document.id}
                         title={document.title}
                         onDelete={() => deleteDocumentItem(document.id)}
