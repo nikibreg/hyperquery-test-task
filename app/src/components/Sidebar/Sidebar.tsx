@@ -66,7 +66,7 @@ export const Sidebar = () => {
         >
         <div className="sidebar-content"> 
         <menu className="document-container">
-            <h2 className="document-container-title">Documents</h2>
+            <h2 className="document-container-title">Documents ({documentStore?.documents.length})</h2>
             {
                 (documentStore as DocumentStore).documents.map((document: any) => ( 
                     <DocumentItem

@@ -8,9 +8,13 @@ import "./DocumentItem.css";
 export default function AddingDocumentItem(props: { onSaveDocumentItem: any }) {
   const [isAdding, setIsAdding] = React.useState(false);
   const [title, setTitle] = React.useState('');
+  const [error, setError] = React.useState('');
 
   const onTitleChange = (event: any) => {
-    setTitle((event as any)?.target.value)
+    let newTitle: string = (event as any)?.target.value
+    setError(!newTitle.length ? "Please enter a valid title" : "")
+
+    setTitle(newTitle)
   }
 
   const showInput = () => {
@@ -18,6 +22,7 @@ export default function AddingDocumentItem(props: { onSaveDocumentItem: any }) {
   }
 
   const saveDocumentItem = () => {
+    if (error) return;
     props.onSaveDocumentItem(title);
     setIsAdding(false)
   }
@@ -38,6 +43,8 @@ export default function AddingDocumentItem(props: { onSaveDocumentItem: any }) {
             </InputLabel>
             <Input
               id="title"
+              required
+              error={!!error}
               autoFocus
               value={title}
               onKeyDown={onKeyDown}
@@ -51,12 +58,15 @@ export default function AddingDocumentItem(props: { onSaveDocumentItem: any }) {
             />
           </FormControl>
           :
-          <IconButton
-              onClick={showInput}
-              aria-label="add"
-          >
-              <AddIcon />
-          </IconButton>
+          <div style={{"width": "100%", "display": "flex", "justifyContent": "center"}}>
+            <IconButton
+                onClick={showInput}
+                size="large"
+                aria-label="add"
+            >
+                <AddIcon />
+            </IconButton>
+          </div>
         }
     </div>
   );
