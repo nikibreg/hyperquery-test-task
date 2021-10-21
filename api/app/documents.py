@@ -6,18 +6,20 @@ documents_mod = Blueprint('documents', __name__)
 
 @documents_mod.route('', methods=['POST'])
 def create():
-    request_data = request.get_json()
+    request_data = request.get_json(force=True)
 
     parent_id = request_data.get('parent_id')
     if parent_id:
         parent_document = PgDocument.query.get(parent_id)
         if not parent_document:
             abort(404, "resource not found")
-
+    ordinal_number_interval = 1000
+    ordinal_number = ordinal_number_interval * (PgDocument.query.count() + 1)
     document = PgDocument(
         title=request_data.get('title', ''),
         body=request_data.get('body', ''),
-        parent_id=parent_id
+        parent_id=parent_id,
+        ordinal_number=ordinal_number
     )
     db_session.add(document)
     db_session.commit()
