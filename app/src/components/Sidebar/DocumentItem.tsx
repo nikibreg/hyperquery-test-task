@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import "./DocumentItem.css";
 
-export default function DocumentItem(props: { title: string }) {
+export default function DocumentItem(props: { title: string, onDelete: any }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -13,10 +13,11 @@ export default function DocumentItem(props: { title: string }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    props.onDelete()
   };
 
   return (
-    <button className="document">
+    <div className="document">
         <h5 className="document-title">{props.title}</h5>
 
         <IconButton
@@ -39,6 +40,6 @@ export default function DocumentItem(props: { title: string }) {
         >
         <MenuItem onClick={handleClose}>Delete</MenuItem>
         </Menu>
-    </button>
+    </div>
   );
 }
