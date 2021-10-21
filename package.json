@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@mui/icons-material": "^5.0.4",
     "@mui/material": "^5.0.4"
   }
 }
