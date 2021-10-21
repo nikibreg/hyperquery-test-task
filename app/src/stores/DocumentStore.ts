@@ -53,11 +53,29 @@ export default class DocumentStore {
         });
     }
 
+    updateActiveDocumentBody(body: string) {
+        const document = {
+            ...this.activeDocument,
+            body,
+        };
+        delete document.created_at
+        delete document.deleted_at
+        delete document.updated_at
+        fetch(`${apiUrl}/${document.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(document)
+        })
+        .then(r => r.json())
+        .then(json => {
+            this.documents[this.documents.findIndex(d => d.id === document.id)] = json.data;
+        });
+    }
+
     fetchDocuments() {
         fetch(apiUrl)
             .then(r => r.json())
             .then(json => {
-                this.documents = json.data;
+                this.documents = json.data.sort((doc1: Document, doc2: Document) => (doc1?.ordinal_number as number) - (doc2?.ordinal_number as number));
                 if (this.documents?.length) {
                     this.uiStore.setActiveDocumentId(this.documents[0]?.id as string)
                 }
