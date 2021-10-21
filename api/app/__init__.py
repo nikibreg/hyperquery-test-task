@@ -1,13 +1,14 @@
 import os
 from flask import Flask, request, g
 from models import db_session
+from flask_cors import CORS
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Initialize Flask App
 app = Flask(__name__)
-
+CORS(app)
 from .documents import documents_mod
 app.register_blueprint(documents_mod, url_prefix="/v1/documents")
 
