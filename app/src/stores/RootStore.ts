@@ -12,7 +12,7 @@ export default class RootStore implements IRootStore {
 
   constructor() {
     this.ui = new UIStore();
-    this.documentStore = new DocumentStore();
+    this.documentStore = new DocumentStore(this.ui);
   }
 
   get stores() {

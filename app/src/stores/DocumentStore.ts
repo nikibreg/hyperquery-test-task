@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, makeObservable, observable, runInAction } from 'mobx'
+import UIStore from './UIStore';
 
 const apiUrl = `http://localhost:3001/v1/documents`;
 
@@ -16,7 +17,7 @@ export interface Document {
 export default class DocumentStore {
     documents: Document[] = []
 
-    constructor() {
+    constructor(private uiStore: UIStore) {
         makeAutoObservable(this)
         this.fetchDocuments()
     }
@@ -44,6 +45,11 @@ export default class DocumentStore {
     fetchDocuments() {
         fetch(apiUrl)
             .then(r => r.json())
-            .then(json => this.documents = json.data);
+            .then(json => {
+                this.documents = json.data;
+                if (this.documents?.length) {
+                    this.uiStore.setActiveDocumentId(this.documents[0]?.id as string)
+                }
+            });
     }
 }
