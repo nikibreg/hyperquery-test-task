@@ -1,5 +1,5 @@
 from sqlalchemy import Table, Column, DateTime, String, Boolean, ForeignKey, event, func
-from sqlalchemy.dialects.postgresql import JSONB, UUID
+from sqlalchemy.dialects.postgresql import JSONB, UUID, INTEGER
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy import orm
@@ -21,6 +21,7 @@ class PgDocument(SqlalchemyHelper.Base, PGNormModel):
     is_pinned = Column(Boolean, default=False)
     deleted_at = Column(DateTime, default=None, nullable=True)
     parent_id = Column(UUID(), ForeignKey('documents.id', ondelete="CASCADE"))
+    ordinal_number = Column(INTEGER(), nullable=False)
 
     def __repr__(self):
         return f'Document<id: {self.id}, title: {self.title}>'
@@ -34,6 +35,7 @@ class PgDocument(SqlalchemyHelper.Base, PGNormModel):
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
             'deleted_at': self.deleted_at.isoformat() if self.deleted_at else None,
+            'ordinal_index': self.ordinal_number
         }
 
         return data
