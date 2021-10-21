@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { FormControl, Input, InputAdornment, InputLabel, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import * as React from 'react';
@@ -22,9 +23,10 @@ export default function AddingDocumentItem(props: { onSaveDocumentItem: any }) {
   }
 
   const saveDocumentItem = () => {
-    if (error) return;
+    if (error || !title) return;
     props.onSaveDocumentItem(title);
     setIsAdding(false)
+    setTitle('')
   }
 
   const onKeyDown = (e: any) => {
@@ -53,6 +55,7 @@ export default function AddingDocumentItem(props: { onSaveDocumentItem: any }) {
               endAdornment={
                 <InputAdornment position="end">
                   <CheckIcon onClick={saveDocumentItem} />
+                  <CloseIcon onClick={() => setIsAdding(false)} />
                 </InputAdornment>
               }
             />
