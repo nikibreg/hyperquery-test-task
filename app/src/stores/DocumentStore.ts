@@ -22,6 +22,11 @@ export default class DocumentStore {
         this.fetchDocuments()
     }
 
+    
+    public get activeDocument(): Document | undefined {
+        return this.documents?.find(document => document.id === this.uiStore.activeDocumentId)
+    }
+    
     addDocument(title: string) {
         const document: Document = {
             title
@@ -30,7 +35,13 @@ export default class DocumentStore {
                 method: 'POST',
                 body: JSON.stringify(document)
             })
-            .then(r => r.json());
+            .then(r => r.json())
+            .then(json => {
+                const newDocument = json.data;
+                this.documents[this.documents.length - 1] = newDocument
+                
+                this.uiStore.setActiveDocumentId(newDocument.id as string)
+            });
         this.documents.push(document);
     }
 
