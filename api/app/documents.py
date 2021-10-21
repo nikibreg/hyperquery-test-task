@@ -91,13 +91,19 @@ def update(document_id):
         if previousDocument and previousDocument.id != document_id:
             previousOrdinal = previousDocument.ordinal_number
             nextDocuments = [doc for doc in docs if doc.ordinal_number > previousOrdinal and doc.id != document_id]
+            # if there's another document after the document that we're placing our document (that we're editing) after
+            # then we place the document that we're editing in the middle of those 2 documents
             if nextDocuments:
                 nextDocument = nextDocuments[0]
                 diff = round((nextDocument.ordinal_number - previousDocument.ordinal_number) / 2)
+                # in case the diff is to small, we increase it 
                 ordinalNumber = previousDocument.ordinal_number + diff
+            # or else we are setting it as the ordinal number of the last document plus the interval (1000)
             else: 
                 ordinalNumber = docs[-1].ordinal_number + ordinal_number_interval
         setattr(document, 'ordinal_number', ordinalNumber)
+    # in case the ordinal number property is set to null, we will place the document at the start
+    # and increment the ordinal numbers of other documents by the interval (1000)
     elif 'ordinal_previous_id' in request_data and ordinal_previous_id is None:
         if docs[0].ordinal_number == ordinal_number_interval and docs[0].ordinal_number != document_id:
             for doc in docs:
