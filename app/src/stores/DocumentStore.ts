@@ -27,7 +27,9 @@ export default class DocumentStore {
 
     deleteDocument(documentId: string) {
         runInAction(() => {
-            this.documents = this.documents.filter(document => document.id !== documentId);
+            fetch(`${apiUrl}/${documentId}`, { method: 'DELETE' })
+                .then(r => r.json())
+                .then(json => this.documents = this.documents.filter(document => document.id !== documentId));
         });
     }
 
