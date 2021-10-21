@@ -95,9 +95,15 @@ def update(document_id):
             # then we place the document that we're editing in the middle of those 2 documents
             if nextDocuments:
                 nextDocument = nextDocuments[0]
+                nextDocumentIndex = docs.index(nextDocument)
                 diff = round((nextDocument.ordinal_number - previousDocument.ordinal_number) / 2)
                 # in case the diff is to small, we increase it 
-                ordinalNumber = previousDocument.ordinal_number + diff
+                if diff <= 1:
+                    for doc in docs[nextDocumentIndex:]:
+                        setattr(doc, 'ordinal_number', doc.ordinal_number + ordinal_number_interval)
+                    ordinalNumber = previousDocument.ordinal_number + ordinal_number_interval
+                else:
+                    ordinalNumber = previousDocument.ordinal_number + diff
             # or else we are setting it as the ordinal number of the last document plus the interval (1000)
             else: 
                 ordinalNumber = docs[-1].ordinal_number + ordinal_number_interval
