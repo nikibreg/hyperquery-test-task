@@ -16,12 +16,17 @@ export const TextEditor = () => {
 
     return (
         <div className="text-editor">
-            <Editor
-                onChange={getValue => updateBody(getValue())}
-                value={documentStore?.activeDocument?.body}
-            />
             {
-                documentStore?.activeDocument && <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at as string).toLocaleString()}</h6>
+                documentStore?.activeDocument 
+                && (
+                    <>
+                        <Editor
+                            onChange={getValue => updateBody(getValue())}
+                            value={documentStore?.activeDocument?.body ? documentStore?.activeDocument?.body : " "}
+                        />
+                        <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at as string).toLocaleString()}</h6>
+                    </>
+                )
             }
         </div>
     )
