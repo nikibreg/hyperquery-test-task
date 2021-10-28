@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
 
 export default class UIStore {
-    activeDocumentId: string = '';
+  activeDocumentId: string = '';
 
-    constructor() {
-        makeAutoObservable(this);
-    }
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-    setActiveDocumentId(activeDocumentId: string) {
-        this.activeDocumentId = activeDocumentId;
-    }
+  setActiveDocumentId(activeDocumentId: string) {
+    this.activeDocumentId = activeDocumentId;
+  }
 }

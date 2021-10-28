@@ -3,6 +3,11 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+    }
+  ],
   extends: [
     'plugin:react/recommended'
   ],
@@ -19,7 +24,10 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    "indent": ["error", 4, {"ignoredNodes": ["JSXElement"]}],
-    "react/jsx-indent": ["error", 4]
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
+    "@typescript-eslint/no-unused-vars": "error"
   },
 };

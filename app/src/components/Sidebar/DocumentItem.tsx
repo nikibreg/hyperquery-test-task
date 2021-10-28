@@ -29,28 +29,28 @@ export default function DocumentItem(props: { title: string, onDelete: any, acti
 
   return (
     <div className={`document ${props.active && 'active'}`} onClick={setAsActive}>
-        <h5 className="document-title">{props.title}</h5>
+      <h5 className="document-title">{props.title}</h5>
 
-        <IconButton
-            aria-controls="basic-menu"
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            aria-label="delete"
-        >
-            <DeleteIcon />
-        </IconButton>
-        <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-        >
-          <MenuItem onClick={onDelete}>Delete</MenuItem>
-        </Menu>
+      <IconButton
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        aria-label="delete"
+      >
+        <DeleteIcon />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={onDelete}>Delete</MenuItem>
+      </Menu>
     </div>
   );
 }

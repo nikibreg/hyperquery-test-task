@@ -7,28 +7,28 @@ import { debounce } from 'lodash';
 import './TextEditor.css'
 
 export const TextEditor = () => {
-    const { documentStore } = useStores();
+  const { documentStore } = useStores();
     
-    const updateBody = debounce((body: any) => {
-        documentStore?.updateActiveDocumentBody(body);
-    }, 1000)
+  const updateBody = debounce((body: any) => {
+    documentStore?.updateActiveDocumentBody(body);
+  }, 1000)
 
-    return (
-        <div className="text-editor">
-            {
-                documentStore?.activeDocument 
+  return (
+    <div className="text-editor">
+      {
+        documentStore?.activeDocument 
                 && (
-                    <>
-                        <Editor
-                            onChange={getValue => updateBody(getValue())}
-                            value={documentStore?.activeDocument?.body ? documentStore?.activeDocument?.body : " "}
-                        />
-                        <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at).toLocaleString()}</h6>
-                    </>
+                  <>
+                    <Editor
+                      onChange={getValue => updateBody(getValue())}
+                      value={documentStore?.activeDocument?.body ? documentStore?.activeDocument?.body : " "}
+                    />
+                    <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at as string).toLocaleString()}</h6>
+                  </>
                 )
-            }
-        </div>
-    )
+      }
+    </div>
+  )
 }
 
 export default observer(TextEditor)
