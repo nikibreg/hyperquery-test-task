@@ -1,17 +1,17 @@
-import { action, makeAutoObservable, makeObservable, observable, runInAction } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx';
 import UIStore from './UIStore';
 
 const apiUrl = `http://localhost:3001/v1/documents`;
 
 export interface Document {
-    id?: string;
+    id: string;
     body?: string;
     created_at?: string;
     deleted_at?: string;
     ordinal_number?: number;
     parent_id?: string;
     title?: string;
-    updated_at?: string;
+    updated_at: string;
 }
 
 export default class DocumentStore {
@@ -28,7 +28,7 @@ export default class DocumentStore {
     }
     
     addDocument(title: string) {
-        const document: Document = {
+        const document = {
             title
         } 
         fetch(`${apiUrl}`, {
@@ -40,7 +40,7 @@ export default class DocumentStore {
                 const newDocument = json.data;
                 this.documents[this.documents.length - 1] = newDocument
                 
-                this.uiStore.setActiveDocumentId(newDocument.id as string)
+                this.uiStore.setActiveDocumentId(newDocument.id)
             });
         this.documents.push(document);
     }
@@ -77,7 +77,7 @@ export default class DocumentStore {
             .then(json => {
                 this.documents = json.data.sort((doc1: Document, doc2: Document) => (doc1?.ordinal_number as number) - (doc2?.ordinal_number as number));
                 if (this.documents?.length) {
-                    this.uiStore.setActiveDocumentId(this.documents[0]?.id as string)
+                    this.uiStore.setActiveDocumentId(this.documents[0]?.id)
                 }
             });
     }

@@ -1,8 +1,7 @@
 import { observer } from "mobx-react";
-import React, { useMemo } from "react";
+import React from "react";
 import Editor from "rich-markdown-editor";
 import useStores from "../../hooks/useStores";
-import { Document } from "../../stores/DocumentStore";
 import { debounce } from 'lodash';
 
 import './TextEditor.css'
@@ -24,7 +23,7 @@ export const TextEditor = () => {
                             onChange={getValue => updateBody(getValue())}
                             value={documentStore?.activeDocument?.body ? documentStore?.activeDocument?.body : " "}
                         />
-                        <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at as string).toLocaleString()}</h6>
+                        <h6>Updated at: {new Date(documentStore?.activeDocument?.updated_at).toLocaleString()}</h6>
                     </>
                 )
             }
