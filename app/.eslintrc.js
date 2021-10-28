@@ -19,7 +19,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    "indent": ["error", 2, {"ignoredNodes": ["JSXElement"]}],
-    "react/jsx-indent": ["error", 2]
+    "indent": ["error", 4, {"ignoredNodes": ["JSXElement"]}],
+    "react/jsx-indent": ["error", 4]
   },
 };
