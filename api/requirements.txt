@@ -22,7 +22,7 @@ typing==3.6.4
 factory_boy==3.2.0
 
 # common packages
-Flask==1.1.2
+Flask==2.1.0
 jsonschema==3.0.2
 psycopg2-binary==2.8.6
 pyhocon==0.3.42
